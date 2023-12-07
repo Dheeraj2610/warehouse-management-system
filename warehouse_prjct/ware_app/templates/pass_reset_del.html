@@ -1,0 +1,87 @@
+{% extends 'del_base.html' %}
+
+{% block content %}
+    <style>
+        /* Styles for the reset password page */
+        .container {
+            margin-top: 50px; /* Adjust as needed */
+            max-width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+        }
+
+        input[type="password"] {
+            padding: 8px;
+            margin-bottom: 10px;
+            width: calc(100% - 16px);
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Styles for mobile view */
+        @media (max-width: 767px) {
+            .container {
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            input[type="password"], input[type="submit"] {
+                font-size: 14px;
+                padding: 6px;
+            }
+        }
+    </style>
+    <br><br>
+    <div class="container">
+        <h1>Reset Password</h1>
+        
+        <form method="post">
+            {% csrf_token %}
+            <label for="password">New Password:</label>
+            <input type="password" name="password" required><br>
+        
+            <label for="confirm_password">Confirm Password:</label>
+            <input type="password" name="confirm_password" required><br>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div style="color: rgb(255, 42, 0); text-align: center;" >{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            
+            <br>
+            <input type="submit" value="Reset Password">
+        </form>
+    </div>
+{% endblock %}

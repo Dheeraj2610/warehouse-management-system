@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Delivery Status</title>
+</head>
+<body>
+    <h1>Update Delivery Status for Order ID: {{ order.id }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="status">Delivery Status:</label>
+        <select name="status" id="status">
+            <option value="Pending">Pending</option>
+            <option value="Dispatched">Dispatched</option>
+            <option value="In Transit">In Transit</option>
+            <option value="Delivered">Delivered</option>
+        </select>
+        <br><br>
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location">
+        <br><br>
+        <label for="estimated_delivery_time">Estimated Delivery Time:</label>
+        <input type="datetime-local" id="estimated_delivery_time" name="estimated_delivery_time">
+        <br><br>
+        <!-- Add a field to input delivery person ID -->
+        <input type="hidden" name="delivery_person_id" value="{{ delivery_person_id }}">
+        
+        <button type="submit">Update Delivery Status</button>
+    </form>
+</body>
+</html>

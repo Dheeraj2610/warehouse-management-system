@@ -1,0 +1,91 @@
+{% extends 'admin_base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        @media screen and (max-width: 600px) {
+            table thead tr {
+                display: table-row;
+            }
+
+            table th, table td {
+                display: table-cell;
+                text-align: left;
+                border: 1px solid #dddddd;
+                padding: 8px;
+            }
+
+            table td::before {
+                content: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>All Orders</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Date Ordered</th>
+                <th>Order Status</th>
+                <th>Shipping Method</th>
+                <th>Delivery person</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in all_orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td data-label="Customer">{{ order.customer.cs_name }}</td>
+                    <td data-label="Product">{{ order.product.name }}</td>
+                    <td data-label="Quantity">{{ order.quantity }}</td>
+                    <td data-label="Date Ordered">{{ order.date_ordered }}</td>
+                    <td data-label="Order Status">{{ order.get_admin_combined_status_display }}</td>
+                    <td data-label="Shipping Method">{{ order.shipping_method.name }}</td>
+                    <td data-label="Shipping Method">{{ order.delivery_person.dl_name }}</td>
+
+                    <td>
+                        <a class="btn btn-primary btn-xs edit-order-btn" href="{% url 'assign_delivery' order.id %}">
+                            <span class="glyphicon glyphicon-edit"></span>Delivery person
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+{% endblock %}

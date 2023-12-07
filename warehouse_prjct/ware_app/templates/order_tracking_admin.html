@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Order Tracking</title>
+    <style>
+        /* CSS for the progress track */
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 2;
+          
+        }
+        .left_area h3 {
+            margin: 0;
+        }
+        .step {
+            text-align: center;
+            width: 20%;
+            position: relative;
+            padding-bottom: 10px; /* Padding to separate track from steps */
+        }
+        
+        img {
+            display: block;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+        .order-card {
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        .one, .two, .three, .four{
+    position:absolute;
+	margin-top:-10px;
+
+
+	z-index:1;
+	height:40px;
+	width:40px;
+	border-radius:25px;
+
+	
+}
+.one{
+	left:10%;
+}
+.two{
+	left:35%;
+}
+.three{
+	left:60%;
+}
+
+.four{
+	left:85%;
+}
+.primary-color{
+	background-color:#4989bd;
+}
+.success-color{
+	background-color:#5cb85c;
+}
+.danger-color{
+	background-color:#d9534f;
+}
+.warning-color{
+	background-color:#f0ad4e;
+}
+.info-color{
+	background-color:#5bc0de;
+}
+.no-color{
+	background-color:inherit;
+}
+
+@media screen and (max-width: 700px) {
+
+ .cardx{
+    width: 70% !important;
+ }
+}
+        
+    </style>
+</head>
+<body>
+
+    <header>
+        <!-- Toggle button for sidebar -->
+        <label for="check" id="sidebar_btn">
+            <i class="fas fa-bars"></i>
+        </label>
+        <div class="left_area">
+            <h3>Admin Panel</h3>
+        </div>
+        <div class="right_area">
+            <a href="{% url 'admin_home' %}" class="btn btn-success">Home</a>
+        </div>
+    </header>
+
+    <!-- Rest of your order details -->
+    <div class="order-details">
+        <h1 style="text-align: center;" >Order Tracking</h1>
+        
+        {% for order in orders %}
+        
+            <div style="display: flex;  justify-content: center; margin-bottom: 20px; flex-wrap: wrap;">
+                <div class="card w-50 p-3 d-flex flex-wrap cardx">
+                   
+
+                    
+                    <div  class="d-flex flex-wrap w-100 flex-row justify-content-between img-det" >
+                        <div>
+                            <div class="d-flex justify-content-between w-100" >
+                            <div>
+                                <h5>{{ order.product.name }}</h5>
+                                <p>{{ order.product.description }}</p>
+                            </div>
+                             <div>
+                                <h6><b>Customer:</b>{{ order.customer.cs_name }}</h6>
+                            <h6><b>Price:</b>{{ order.product.price }}</h6>
+                        </div>
+                    </div>
+                            <div class="d-flex " style="gap:25px">
+                            <div>
+                                <b>Status</b>
+                                <p>{{ order.order_status }}</p>
+                            </div>
+                            <div>
+                                <b>Ordered placed</b>
+                                <p>{{ order.date_ordered }}</p>
+                            </div>
+                            <div>
+                                <b>Estimated Delivery</b>
+                                <p>{{ order.estimated_delivery_time }}</p>
+                            </div>
+                        </div>
+                          
+                        </div>
+                        <div>
+                    <img  src="{{ order.product.image.url }}" alt="{{ order.product.name }}"/>
+                </div>
+                    </div>
+
+                    <div>
+                        <div class="container d-flex justify-content-between mb-4 mt-3">
+                            <div class="step">
+                                <p><b>Pending</b></p>
+                            {{ order.location }}
+                            </div>
+                            <div class="step">
+                                <p><b>Dispatched</b></p>
+                            {{ order.location_dispatch }}
+                            </div>
+                            <div class="step">
+                                <p><b>In Transit</b></p>
+                                {{ order.location_transit }}
+                            </div>
+                            <div class="step">
+                                <p><b>Delivered</b></p>
+                            </div>
+                       </div>
+                       
+                        
+                    <div class="progress mb-4" style="width:75%; margin: 0 auto;  " >
+                        
+                        <div class="one no-color"></div><div class="two no-color"></div><div class="three no-color"></div><div class="four no-color"></div>
+                              <div class="progress-bar progress-bar-danger" style="{% if order.order_status == 'Pending' %} width: 1%; {% elif order.order_status == 'Dispatched' %} width: 36%; {% elif order.order_status == 'In Transit' %} width: 65%; {% elif order.order_status == 'Delivered' %} width: 100%; {% endif %}" aria-valuenow="{% if order.order_status == 'Pending' %} 25 {% elif order.order_status == 'Dispatched' %} 50 {% elif order.order_status == 'In Transit' %} 75 {% elif order.order_status == 'Delivered' %} 100 {% endif %}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+
+                 
+    
+                
+                </div>
+                
+                
+                </div><!--card-->
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

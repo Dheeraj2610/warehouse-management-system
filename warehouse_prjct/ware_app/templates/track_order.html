@@ -1,0 +1,268 @@
+{% extends 'cus_base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Track Order</title>
+    <style>
+
+        .cardx{
+            z-index:1;            
+        }
+        img {
+            display: block;
+            width: auto;
+            height: 150px;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            
+           
+        }
+
+        .ctn-form{
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width:50%;
+        }
+
+        h2, h3 {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        label {
+            margin-right: 5px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .step {
+            text-align: center;
+            width:100px;
+            position: relative;
+       
+            padding-bottom: 10px; /* Padding to separate track from steps */
+        }
+
+        /* Styles for mobile view */
+        @media (max-width: 767px) {
+            .container {
+                width: 90%;
+            }
+
+            h2, h3 {
+                font-size: 18px;
+            }
+
+            input[type="text"], button {
+                font-size: 14px;
+                padding: 6px;
+            }
+
+            .custom-progress{
+                position: relative;
+                top:-180px;
+                left:100px;
+                transform: rotate(90deg);                
+            }
+
+.one, .two, .three, .four{
+    display: none;
+        }
+        .step {
+           
+            width:100% !important;
+           
+        }
+    }
+
+        .order-card {
+            
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+        padding: 20px;
+      
+    }
+
+        
+
+    .one, .two, .three, .four{
+position:absolute;
+margin-top:-10px;
+
+
+z-index:1;
+height:40px;
+width:40px;
+border-radius:25px;
+
+
+}
+.one{
+left:10%;
+}
+.two{
+left:35%;
+}
+.three{
+left:60%;
+}
+
+.four{
+left:85%;
+}
+.primary-color{
+background-color:#4989bd;
+}
+.success-color{
+background-color:#5cb85c;
+}
+.danger-color{
+background-color:#d9534f;
+}
+.warning-color{
+background-color:#f0ad4e;
+}
+.info-color{
+background-color:#5bc0de;
+}
+.no-color{
+background-color:inherit;
+}
+
+@media screen and (max-width: 700px) {
+
+.cardx{
+width: 90% !important;
+}
+}
+    </style>
+</head>
+<body>
+    <br><br>
+    <div class="container ctn-form">
+        <h2>Track Order</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="tracking_id">Enter Tracking ID:</label>
+            <input type="text" id="tracking_id" name="tracking_id" required>
+            <button type="submit">Track</button>
+        </form>
+    </div>
+        {% if order %}
+            {% for item in order %}
+            <div style="display: flex;  justify-content: center; margin-bottom: 20px; flex-wrap: wrap;">
+                <div class="card w-50 p-3 d-flex flex-wrap cardx">
+                   
+
+                    
+                    <div  class="d-flex flex-wrap w-100 flex-row justify-content-between img-det" style="flex-wrap: wrap;" >
+                        <div>
+                            <div class="d-flex justify-content-between w-100" style="flex-wrap: wrap;">
+                            <div>
+                                <h5>{{ item.product.name }}</h5>
+                                <p>{{ item.product.description }}</p>
+                            </div>
+                             <div>
+                            <h6><b>Qty:</b>{{ item.quantity }}</h6>
+                            <h4>{{ grand_total }}</h4>
+                        </div>
+                    </div>
+                            <div class="d-flex flex-wrap" style="gap:25px">
+                            <div>
+                                <b>Status</b>
+                                <p>{{ item.order_status }}</p>
+                            </div>
+                            <div>
+                                <b>Ordered placed</b>
+                                <p>{{ item.date_ordered }}</p>
+                            </div>
+                            <div>
+                                <b>Estimated Delivery</b>
+                                <p>{{ item.estimated_delivery_time }}</p>
+                            </div>
+                        </div>
+    
+                        
+                        </div>
+                        <div>
+                    <img  src="{{ item.product.image.url }}" alt="{{ order.product.name }}"/>
+                </div>
+                    </div>
+
+                    <div class="">
+                        <div class="d-flex flex-wrap flex-row justify-content-between mb-4 mt-3 " style="flex-wrap: wrap;">
+                            <div class="step">
+                                <p><b>Pending</b></p>
+                            {{ item.location }}
+                            </div>
+                            <div class="step">
+                                <p><b>Dispatched</b></p>
+                            {{ item.location_dispatch }}
+                            </div>
+                            <div class="step">
+                                <p><b>In Transit</b></p>
+                                {{ item.location_transit }}
+                            </div>
+                            <div class="step">
+                                <p><b>Delivered</b></p>
+                            </div>
+                       </div>
+                       
+                        
+                    <div class="progress mb-4 custom-progress" style="width:75%; margin: 0 auto;  " >
+                        
+                        <div class="one no-color"></div><div class="two no-color" ></div><div class="three no-color"></div><div class="four no-color"></div>
+                              <div class="progress-bar progress-bar-danger" style="{% if item.order_status == 'Pending' %} width: 1%; {% elif item.order_status == 'Dispatched' %} width: 36%; {% elif item.order_status == 'In Transit' %} width: 65%; {% elif item.order_status == 'Delivered' %} width: 100%; {% endif %}" aria-valuenow="{% if item.order_status == 'Pending' %} 25 {% elif item.order_status == 'Dispatched' %} 50 {% elif item.order_status == 'In Transit' %} 75 {% elif item.order_status == 'Delivered' %} 100 {% endif %}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="mt-4">
+                        {% if order.order_status == 'Delivered' %}
+                        {% if not order.client_delivery_status %}
+                            <a class="btn btn-primary" href="{% url 'update_client_delivery_status' order_id=order.id %}">Update Client Delivery Status</a>
+                        {% else %}
+                            <p >Client Delivery Status: Delivered</p>
+                        {% endif %}
+                    {% endif %}
+                    </div> -->
+    
+                
+                </div>
+                    
+
+                
+                </div><!--card-->
+            </div>
+            {% endfor %}
+        {% endif %}
+    
+</body>
+</html>
+{% endblock %}

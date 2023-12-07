@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Order</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0; /* Set margin to 0 to remove any default space */
+            padding: 0; /* Set padding to 0 */
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="datetime-local"],
+        select,
+        button {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 767px) {
+            input[type="text"],
+            input[type="datetime-local"],
+            select,
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Order - ID: {{ order.id }}</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="order_status">Order Status:</label>
+            <select name="order_status" id="order_status">
+                <option value="Pending" {% if order.order_status == 'Pending' %} selected {% endif %}>Pending</option>
+                <option value="Dispatched" {% if order.order_status == 'Dispatched' %} selected {% endif %}>Dispatched</option>
+                <option value="In Transit" {% if order.order_status == 'In Transit' %} selected {% endif %}>In Transit</option>
+                <option value="Delivered" {% if order.order_status == 'Delivered' %} selected {% endif %}>Delivered</option>
+            </select>
+            <br><br>
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" value="{{ order.location }}">
+            <br><br>
+            <label for="location_dispatch">Location Dispatch:</label>
+            <input type="text" id="location_dispatch" name="location_dispatch" value="{{ order.location_dispatch }}">
+            <br><br>
+            <label for="location_transit">Location Transit:</label>
+            <input type="text" id="location_transit" name="location_transit" value="{{ order.location_transit }}">
+            <br><br>
+            <label for="estimated_delivery_time">Estimated Delivery Time:</label>
+            <input type="datetime-local" id="estimated_delivery_time" name="estimated_delivery_time" value="{% if order.estimated_delivery_time %}{{ order.estimated_delivery_time|date:'Y-m-d\TH:i' }}{% endif %}">
+            <br><br>
+            <button type="submit">Update Order</button>
+        </form>
+    </div>
+</body>
+</html>

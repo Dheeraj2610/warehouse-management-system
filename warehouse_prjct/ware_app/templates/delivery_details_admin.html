@@ -1,0 +1,80 @@
+{% extends 'admin_base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style media="screen">
+        a:link {
+            text-decoration: none;
+        }
+
+        h6 {
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .div-1 {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h6 class="panel-title">Delivery Details</h6>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-bordered" id="dev-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Username</th>
+                                    <th>Phone</th>
+                                    <th>Image</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for d in delivery %}
+                                    <tr>
+                                        <td>{{ d.dl_name }}</td>
+                                        <td>{{ d.dl_email }}</td>
+                                        <td>{{ d.username }}</td>
+                                        <td>{{ d.dl_phone }}</td>
+                                    
+                                        <td>
+                                            {% if d.dl_image %}
+                                                <img src="{{ d.dl_image.url }}" style="width: 100px; height: 100px;"> <!-- Adjust width and height as needed -->
+                                            {% else %}
+                                                <img src="{% static 'images/default.png' %}" style="width: 100px; height: 100px;"> <!-- Adjust width and height as needed -->
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary btn-xs" href="{% url 'edit_delivery_page_admin' d.id %}">
+                                                <i class="far fa-edit"></i> <!-- Font Awesome icon for edit -->
+                                            </a>
+                                            <a class="btn btn-danger btn-xs delete-teacher-btn" href="{% url 'delete_delivery' d.id %}">
+                                                <i class="fas fa-trash-alt"></i> <!-- Font Awesome icon for delete -->
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body></html>
+{% endblock %}

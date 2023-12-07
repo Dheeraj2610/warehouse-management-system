@@ -1,0 +1,163 @@
+{% extends 'cus_base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+           
+        }
+
+        h2, h3 {
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 5px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 60%;
+            margin-bottom: 20px;
+            margin: 0 auto;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        thead{
+            background-color: rgb(75, 73, 73);
+            color: white;
+        }
+
+        select, button {
+            padding: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        img {
+            max-width: 100px;
+            height: auto;
+        }
+
+        /* Styles for mobile view */
+        @media (max-width: 767px) {
+            h2, h3, p {
+                font-size: 16px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            select, button {
+                font-size: 14px;
+                padding: 6px;
+            }
+
+            img {
+                max-width: 80px;
+            }
+        }
+        .diva{
+            
+            width: 400px;
+            font-size: 30px;
+            
+            margin: 0 auto;
+            background-color: rgb(255, 255, 255);
+            text-align: center;
+            height: 70px;
+            color: rgb(246, 7, 7)
+            
+
+        }
+        .card{
+            width: 60%;
+            margin: 0 auto;
+            border-bottom: 1px solid #dfdfdf;
+            z-index: 3;
+        }
+
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center;">Checkout</h2>
+
+    <!-- Display selected items in the cart -->
+   
+    <table >
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.total_price }}</td>
+                    <td>
+                        {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="Product Image"> <!-- Adjust width and height as needed -->
+                        {% else %}
+                            <img src="{% static 'images/default.png' %}" alt="Default Image"> <!-- Adjust width and height as needed -->
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table><br>
+
+    <!-- Display current user details -->
+    
+    <div class="card d-flex justify-content-between text-center">
+    <h3>User Details</h3>
+    <p>Name: {{ customer.cs_name }}</p>
+    <p>Email: {{ customer.cs_email }}</p>
+    <p>Address: {{ customer.cs_address }}</p>
+    <p>Phone: {{ customer.cs_phone }}</p>
+    <!-- Add other user details as needed -->
+    <div class="card-body text-center">
+        <h5>Choose Shipping Method</h5>
+        <form action="{% url 'checkout' %}" method="post">
+            {% csrf_token %}
+            <select name="shipping_method" id="shipping_method">
+                {% for method in shipping_methods %}
+                    <option value="{{ method.id }}">{{ method.name }}</option>
+                {% endfor %}
+            </select><br>
+            <h3>Total: {{ grand_total }}</h3>
+            <button type="submit" class="btn btn-primary">Place Order</button>
+            <div class="diva">
+                {% for message in messages %}
+                    {% if message %}
+                        <label  for="message" style="background-color: red; color:white; padding:10px; border-radius: 10px;" >{{message}}</label>
+                    {% endif %}
+                {% endfor %}
+                    </div>
+        </form>
+        </div>
+</div>
+    
+</body>
+</html>
+{% endblock %}

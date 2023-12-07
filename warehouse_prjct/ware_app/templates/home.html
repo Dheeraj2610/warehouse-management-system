@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Document</title>
+    <style>
+        @media only screen and (min-width: 700px) {
+            .ctn {
+                width: 50% !important;
+            }
+        }
+         /* Custom CSS for navbar */
+         .navbar {
+            background-color: #262f37;
+            z-index: 100;
+        }
+
+        .navbar-nav {
+            margin-left:auto;
+        }
+
+        .navbar-nav .nav-link {
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 25px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ffc107;
+        }
+        .navbar-brand {
+            font-size: 30px; /* Adjusts the size of the brand */
+            font-family: Arial, Helvetica, sans-serif;
+            margin-right: 30px;
+            
+        }
+        @media only screen and (max-width: 768px) {
+            .navbar-brand{
+                font-size:20px;
+            }
+        }
+        input:invalid,
+    
+        select:invalid {
+        border: 1px solid rgb(251, 129, 129);
+    }
+
+    
+    input.invalid-input {
+        border: 1px solid rgb(232, 53, 53);
+    }
+    .dropdown-menu {
+        min-width: unset; /* Reset the default minimum width */
+        width: 100px; /* Set your desired width */
+    }
+    .dropdown-toggle::after {
+        margin-left: 0; /* Adjust the left margin as needed */
+    }
+
+    .poster {
+                background-image: url("static/image/home.png");
+                background-size: cover; /* Resize the image to fit the container */
+                background-position: center; /* Center the image horizontally and vertically */
+                height: 100vh; /* Set the height to 100% of the viewport height */
+                overflow: hidden; /* Hide the scrollbar */
+                }
+        @media only screen and (max-width: 768px) {
+            .navbar-brand{
+                font-size:20px;
+            }
+        }
+            
+        .poster{
+        width: 100%;
+        opacity: 100%;
+        
+    }
+    .title-text{
+        position: absolute;
+        top:200px;
+        font-weight: 700;
+        left:200px;
+        color:white;
+        font-size:78px;
+        width:100px;
+    }
+
+    .overlay{
+        position: absolute;
+        top:0;
+        left: 0;
+        
+        height: 100vh;
+
+        width:100vw;
+        background-color: black;
+
+        opacity: 40%;
+    }
+    
+    @media only screen and (max-width: 768px) {
+            .title-text{
+                left:20px;
+                top:350px;                
+                font-size: 42px;
+                color:rgb(253, 253, 253);
+            }
+
+            .overlay{
+                display: none;
+            }
+            }
+            @media only screen and (max-width: 768px) {
+        .navbar-toggler {
+            background-color: grey; /* Change the background color of the toggle button */
+            border-color: white; /* Change the border color of the toggle button */
+        }
+
+        .navbar-toggler-icon {
+            background-color: #fff; /* Change the color of the toggle icon */
+        }
+    }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg ">
+        <!-- Image and text -->
+         <nav class="navbar navbar-light">
+             <a class="navbar-brand text-white" href="#">
+             <img src="https://img.icons8.com/?size=80&id=P4SEpyPpF3SA&format=png" width="60" height="40" class="d-inline-block align-top" alt="">
+             Warehouse Management
+             </a>
+         </nav>   
+         <div class="container-fluid">
+             <button class="navbar-toggler mt-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                 <span class="navbar-toggler-icon"></span>
+             </button>
+ 
+             <div class="collapse navbar-collapse" id="navbarNav">
+                 <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-user-plus" aria-hidden="true"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'signup_page' %}">Customer</a></li>
+                            <li><a class="dropdown-item" href="{% url 'signup_del_page' %}">Delivery</a></li>
+                        </ul>
+                    </li>
+
+
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'signin_page' %}"> <i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;</a>
+                    </li>
+                 </ul>
+             </div>
+         </div>
+     </nav>
+
+     <img class="poster" src="static/image/poster.jpg">
+    <div class="overlay"></div>
+    <h1 class="title-text">Warehouse Management System</h1>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Tution management</title>
+
+  <style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+   
+
+    header {
+      position: fixed;
+      background: #22242A;
+      padding: 10px;
+      width: 100%;
+
+      z-index: 1;
+    }
+
+    .left_area h3 {
+      color: #fff;
+      margin: 0px;
+      text-transform: uppercase;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .left_area span {
+      color: #19B3D3;
+    }
+
+    .logout_btn {
+      padding: 5px;
+      background: #dd3b30;
+      text-decoration: none;
+      float: right;
+      margin-top: -30px;
+      margin-right: 40px;
+      border-radius: 2px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      transition: 0.5s;
+
+    }
+
+    .logout_btn:hover {
+      background: #aa251b;
+    }
+
+    .sidebar {
+      background: #2f323a;
+      padding-top: 70px;
+      position: fixed;
+      left: 0;
+      width: 250px;
+      height: 100vh;
+      transition: 0.5s;
+      transition-property: left;
+      overflow-y: auto;
+      overflow-x: hidden;
+      margin-bottom: 50px; /* Additional margin at the bottom to ensure scrolling space */
+      
+    }
+
+    .sidebar .profile_image {
+      width: 100px;
+      height: 100px;
+      border-radius: 100px;
+      margin-bottom: 10px;
+    }
+
+    .sidebar h4 {
+      color: #ccc;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    .sidebar a {
+      color: #fff;
+      display: block;
+      width: 100%;
+      line-height: 60px;
+      text-decoration: none;
+      padding-left: 35px;
+      box-sizing: border-box;
+      transition: 0.5s;
+      font-size: 14px;
+    }
+
+    .sidebar a:hover {
+      background: #e9e9e9;
+    }
+
+    .sidebar i {
+      padding-right: 10px;
+    }
+
+    label #sidebar_btn {
+      z-index: 1;
+      color: #fff;
+      position: fixed;
+      cursor: pointer;
+      left: 250px;
+      top: 40px;
+      font-size: 20px;
+      margin: 5px 0;
+      transition: 0.5s;
+      transition-property: color;
+    }
+
+    label #sidebar_btn:hover {
+      color: #19B3D3;
+    }
+
+    #check:checked~.sidebar {
+      left: -190px;
+    }
+
+    #check:checked~.sidebar a span {
+      display: none;
+    }
+
+    #check:checked~.sidebar a {
+      font-size: 20px;
+      margin-left: 170px;
+      width: 80px;
+    }
+
+    .content {
+      margin-left: 250px;
+      background: url(background.png) no-repeat;
+      background-position: center;
+      background-size: cover;
+      height: 100vh;
+      transition: 0.5s;
+      overflow-y: auto; /* Enable vertical scrolling */
+      overflow-x: hidden; /* Hide horizontal scrollbar */
+    }
+
+    #check:checked~.content {
+      margin-left: 60px;
+    }
+
+    #check {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+    width: 60%;
+    height: auto;
+    left: -100%;
+    margin-bottom: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition-property: left;
+    width: 250px;
+    height: 100vh;
+    margin-bottom: 50px; /* Additional margin at the bottom to ensure scrolling space */
+    z-index: 999; 
+  }
+  
+  
+
+    .sidebar a {
+      line-height: 0px;
+      font-size: 8px;
+    }
+
+    .content {
+      margin-left: 0;
+     
+    }
+
+    #check:checked~.sidebar {
+      left: 0;
+    }
+    label #sidebar_btn {
+      /* Adjust position for smaller screens */
+      z-index: 1;
+      color: #fff;
+      position: fixed;
+      cursor: pointer;
+      left: 215px; /* Adjust as needed */
+      top: 40px; /* Adjust as needed */
+      font-size: 20px;
+      margin: 5px 0;
+      transition: 0.5s;
+      transition-property: color;
+    }
+
+    label #sidebar_btn:hover {
+      color: #19B3D3;
+    }
+
+    #check:checked~.sidebar {
+      left: 0;
+    }
+
+    #check:checked~.sidebar a span {
+      display: inline-block; /* Show link text when the sidebar is open */
+    }
+
+    #check:checked~.sidebar a {
+      font-size: 18px;
+      margin-left: 0; /* Reset margin for link text */
+      width: 100%; /* Set link width to full for visibility */
+      line-height: 40px;
+    }
+  }
+
+    
+  </style>
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+
+
+</head>
+
+<body>
+
+  <input type="checkbox" id="check">
+  <!--header area start-->
+  <header>
+    <label for="check">
+      <i class="fas fa-bars" id="sidebar_btn"></i>
+    </label>
+    <div class="left_area">
+      <h3>Admin Panel</h3>
+    </div>
+    <div class="right_area">
+      <a href="{% url 'logout_admin' %}" class="logout_btn">Logout</a>
+    </div>
+  </header>
+  <!--header area end-->
+  <!--sidebar start-->
+  <div class="sidebar">
+    <center>
+
+      <img src="https://e7.pngegg.com/pngimages/9/763/png-clipart-computer-icons-login-user-system-administrator-admin-desktop-wallpaper-megaphone.png" class="profile_image" alt="">
+      <h4>Admin {{request.user.first_name}}</h4>
+
+    </center>
+    <a href="{% url 'admin_home' %}"><i class="fas fa-home" aria-hidden="true"></i><span>Home</span></a>
+    <a href="{% url 'manage_registrations' %}"><i  class="fas fa-check-circle"></i><span>Approval</span></a>
+    <a href="{% url 'view_notifications' %}"><i class="fas fa-bullhorn"></i><span>Notification</span></a>
+    <a href="{% url 'add_product' %}"><i class="fas fa-address-card"></i><span>Add Product</span></a>
+    <a href="{% url 'show_product' %}"><i class="fas fa-desktop"></i><span>Product Details</span></a>
+    <a href="{% url 'customer_details_admin' %}"><i class="fas fa-user-graduate"></i><span>Customer</span></a>
+    <a href="{% url 'view_all_orders' %}"><i class="fas fa-chalkboard-teacher"></i><span>Order Details</span></a>
+    <a href="{% url 'order_tracking_admin' %}"><i class="fas fa-user-graduate"></i><span>Track orders</span></a>
+   
+    
+    
+    
+    <a href="#"><i ></i><span>.</span></a>
+    <a href="#"><i ></i><span>.</span></a>
+    <a href="#"><i ></i><span>.</span></a>
+    <a href="#"><i ></i><span>Trial3</span></a>
+   
+    
+    
+    
+    
+
+
+  </div>
+  <!--sidebar end-->
+
+
+  <!--content start-->
+  <div class="content">
+    <br><br><br><br><br>
+    {% block content %}
+
+    {% endblock content %}
+
+</body>
+
+</html>
