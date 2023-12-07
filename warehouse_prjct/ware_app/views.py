@@ -92,7 +92,7 @@ def signup(request):
         send_mail(
             'Confirmation Email',
             f'Your confirmation code: {confirmation_password}',
-            'dheerajks.2610@gmail.com',
+            'youremail@gmail.com',
             [email],
             fail_silently=False,
         )
